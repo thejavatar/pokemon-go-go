@@ -7,22 +7,53 @@
         label {
             margin-right: 5px;
         }
+		
+		.navbar-fixed-top {
+			padding-top: 10px;
+			padding-left: 30px;		
+			background: #fff;
+		}
+		
+		.navbar-fixed-top a {
+		    color: black;
+		}
     </style>
     <link rel="import" th:href="@{bower_components/polymer/polymer.html}"/>
 </head>
 <body>
 <div layout:fragment="content">
+	
+	  <ul class="nav nav-tabs navbar-fixed-top">
+	  <li role="presentation" class="dropdown active">
+	    <a class="dropdown-toggle" data-toggle="dropdown" href="#/list" role="button" aria-haspopup="true" aria-expanded="false">
+	      Pokemons <span class="caret"></span>
+	    </a>
+	    <ul class="dropdown-menu">
+			<li><a href="#/list">By Name and IV</a></li>
+			<li><a href="#/list">By Name and CP</a></li>	
+			<li><a href="#/list">By Date caught</a></li>
+	    </ul>
+	  </li>
+	  <li role="presentation"><a href="#/evolutions">Evolutions</a></li>	
+     </ul>
 
     <pokemon-page></pokemon-page>
 
     <dom-module id="pokemon-page">
+	
         <template>
             <style>
             </style>
-
-            <pokemon-list></pokemon-list>
-
+			
+			<app-location route="{{route}}" use-hash-as-path="true"></app-location>
+			<app-route route="{{route}}" pattern="/:view" data="{{routeData}}"></app-route>		
+			<iron-pages attr-for-selected="id" selected="{{routeData.view}}" fallback-selection="list">
+				  <pokemon-list id="list"></pokemon-list>	
+			      <p id="evolutions">Evo</p>
+			</iron-pages>		
+			
         </template>
+		
         <script>
             Polymer({
                 is: "pokemon-page"

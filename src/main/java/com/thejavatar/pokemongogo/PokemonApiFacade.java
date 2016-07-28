@@ -36,7 +36,7 @@ public class PokemonApiFacade {
 
     public List<PokemonDecorator> getPokemons() {
         try {
-            OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(1, TimeUnit.MINUTES).writeTimeout(1, TimeUnit.MINUTES).build();
+            OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(2, TimeUnit.MINUTES).writeTimeout(2, TimeUnit.MINUTES).build();
             PokemonGo api = new PokemonGo(auth, httpClient, new SystemTimeImpl());
             return api.getInventories().getPokebank().getPokemons().stream()
                     .map(pokemon -> new PokemonDecorator(pokemon))
