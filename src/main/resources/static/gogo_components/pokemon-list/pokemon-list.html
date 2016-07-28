@@ -1,0 +1,41 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+
+<!--
+
+`<pokemon-list>`.
+
+-->
+<dom-module id="pokemon-list">
+    <template>
+        <style>
+        </style>
+
+        <div class="row">
+            <template is="dom-repeat" items="{{pokemons}}" as="pokemon">
+                <pokemon-view pokemon="{{pokemon}}"></pokemon-view>
+            </template>
+        </div>
+
+    </template>
+    <script>
+        Polymer({
+            is: "pokemon-list",
+
+            properties: {
+                pokemons: Array
+            },
+
+            ready: function () {
+                var self = this;
+                $.get("/getPokemons", function (data) {
+                    console.log("Loaded pokemons.")
+                    self.pokemons = data;
+                }).fail(function (err) {
+                    console.log("Couldn't load pokemons.")
+                    console.log(err);
+                });
+            }
+
+        });
+    </script>
+</dom-module>

@@ -1,0 +1,12 @@
+{
+    "name": "pokemongo",
+    "dependencies": {
+    },
+    "devDependencies": {
+        "bower": "^1.7.9"
+    },
+    "engines": {
+        "node": ">=0.10.3",
+        "npm": ">=3.9.3"
+    }
+}

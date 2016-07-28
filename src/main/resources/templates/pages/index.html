@@ -1,0 +1,35 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+<head>
+    <style>
+        label {
+            margin-right: 5px;
+        }
+    </style>
+    <link rel="import" th:href="@{bower_components/polymer/polymer.html}"/>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <pokemon-page></pokemon-page>
+
+    <dom-module id="pokemon-page">
+        <template>
+            <style>
+            </style>
+
+            <pokemon-list></pokemon-list>
+
+        </template>
+        <script>
+            Polymer({
+                is: "pokemon-page"
+            });
+        </script>
+    </dom-module>
+
+</div>
+</body>
+</html>

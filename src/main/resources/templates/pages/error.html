@@ -1,0 +1,17 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout/layout">
+<head>
+</head>
+<body>
+<div layout:fragment="content">
+
+    <h1>Ooooops!</h1>
+    <p>Something bad happened... See details below:</p>
+    <p th:text="${error}"></p>
+
+</div>
+</body>
+</html>
