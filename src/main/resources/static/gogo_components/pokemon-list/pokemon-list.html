@@ -10,6 +10,13 @@
         <style>
         </style>
 
+        <app-route
+                route="{{route}}"
+                pattern="/:order_by"
+                data="{{routeData}}"></app-route>
+
+        <iron-ajax url="{{_getPokemonsUrl(routeData.order_by)}}" last-response="{{pokemons}}" auto></iron-ajax>
+
         <div class="row">
             <template is="dom-repeat" items="{{pokemons}}" as="pokemon">
                 <pokemon-view pokemon="{{pokemon}}"></pokemon-view>
@@ -18,23 +25,21 @@
 
     </template>
     <script>
+
         Polymer({
             is: "pokemon-list",
 
             properties: {
-                pokemons: Array
+                pokemons: Array,
+                route: Object
             },
 
-            ready: function () {
-                var self = this;
-                $.get("/getPokemons", function (data) {
-                    console.log("Loaded pokemons.")
-                    self.pokemons = data;
-                }).fail(function (err) {
-                    console.log("Couldn't load pokemons.")
-                    console.log(err);
-                });
-            }
+            _getPokemonsUrl : function(sorting) {
+                if(sorting == undefined || sorting.length == 0) {
+                    sorting = 'BY_NAME_AND_IV';
+                }
+                return "/getPokemons/" + sorting;
+            },
 
         });
     </script>

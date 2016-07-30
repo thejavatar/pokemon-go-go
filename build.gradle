@@ -30,6 +30,8 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-devtools'
     compile 'com.github.Grover-c13:PokeGOAPI-Java:dcaa793'
     compile 'com.squareup.moshi:moshi:1.2.0'
+    compile 'org.springframework:spring-context-support:4.2.7.RELEASE'
+    compile 'net.sf.ehcache:ehcache:2.10.1'
 
     providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 }

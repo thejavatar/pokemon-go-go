@@ -3,18 +3,17 @@ package com.thejavatar.pokemongogo;
 import com.pokegoapi.auth.GoogleAutoCredentialProvider;
 import com.pokegoapi.exceptions.LoginFailedException;
 import com.pokegoapi.exceptions.RemoteServerException;
+import com.thejavatar.pokemongogo.apifacade.PokemonApiFacade;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -54,19 +53,18 @@ public class OneToRuleThemAllController {
     }
 
     private String showPage(Model model) {
-        model.addAttribute("pokemons", apiFacade.getPokemons());
         return "pages/index";
     }
 
-    @RequestMapping("/getPokemons")
+    @RequestMapping("/getPokemons/{orderBy}")
     @ResponseBody
-    public List<PokemonDecorator> getPokemons() {
-        LOG.debug("getPokemons()");
-        return apiFacade.getPokemons();
+    public List<PokemonDecorator> getPokemons(@PathVariable OrderBy orderBy) {
+        LOG.debug("getPokemons() with ordering: " + orderBy);
+        return apiFacade.getPokemons(orderBy.getComparator());
     }
 
     private void authenticateWithPokemonGo(String username, String password) throws LoginFailedException, RemoteServerException {
-        apiFacade.setAuthentication(new GoogleAutoCredentialProvider(new OkHttpClient(), username, password));
+        apiFacade.setAuthentication(new GoogleAutoCredentialProvider(new OkHttpClient(), username, password), username);
     }
 
     @ExceptionHandler
@@ -84,4 +82,28 @@ public class OneToRuleThemAllController {
         model.addAttribute("error", message);
         return "pages/error";
     }
+
+    private enum OrderBy {
+        BY_NAME_AND_IV(
+                (pokemon1, pokemon2) -> {
+                    if (pokemon1.getName().equals(pokemon2.getName())) {
+                        return pokemon2.getPerfectIv().compareTo(pokemon1.getPerfectIv());
+                    } else {
+                        return pokemon1.getName().compareTo(pokemon2.getName());
+                    }
+                }
+        ),
+        BY_DATE_CAUGHT((pokemon1, pokemon2) -> pokemon2.getDateCaught().compareTo(pokemon1.getDateCaught()));
+
+        private final Comparator<PokemonDecorator> comparator;
+
+        OrderBy(Comparator<PokemonDecorator> comparator) {
+            this.comparator = comparator;
+        }
+
+        public Comparator<PokemonDecorator> getComparator() {
+            return comparator;
+        }
+    }
+
 }
