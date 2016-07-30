@@ -3,6 +3,7 @@ package com.thejavatar.pokemongogo;
 import com.pokegoapi.api.pokemon.Pokemon;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Optional;
 
 
@@ -36,6 +37,12 @@ public class PokemonDecorator {
     public Double getPerfectIv() {
         double perfectIv = (pokemon.getIndividualAttack() + pokemon.getIndividualDefense() + pokemon.getIndividualStamina()) * 100 / 45;
         return perfectIv;
+    }
+
+    public Calendar getDateCaught(){
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(pokemon.getCreationTimeMs());
+        return cal;
     }
 
     public String getName() {

@@ -7,6 +7,7 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.cache.annotation.EnableCaching;
 
 /**
  * Created by theJavatar.com on 23/07/16.
@@ -14,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @EnableAutoConfiguration
 @ComponentScan
 @Configuration
+@EnableCaching
 public class Application extends SpringBootServletInitializer {
 
     public static void main(String[] args) {

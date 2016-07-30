@@ -29,9 +29,9 @@
 	      Pokemons <span class="caret"></span>
 	    </a>
 	    <ul class="dropdown-menu">
-			<li><a href="#/list">By Name and IV</a></li>
-			<li><a href="#/list">By Name and CP</a></li>	
-			<li><a href="#/list">By Date caught</a></li>
+			<li><a href="#/list/BY_NAME_AND_IV">By Name and IV</a></li>
+			<!--<li><a href="#/list">By Name and CP</a></li>-->
+			<li><a href="#/list/BY_DATE_CAUGHT">By Date Caught</a></li>
 	    </ul>
 	  </li>
 	  <li role="presentation"><a href="#/evolutions">Evolutions</a></li>	
@@ -46,12 +46,12 @@
             </style>
 			
 			<app-location route="{{route}}" use-hash-as-path="true"></app-location>
-			<app-route route="{{route}}" pattern="/:view" data="{{routeData}}"></app-route>		
+			<app-route route="{{route}}" pattern="/:view" data="{{routeData}}" tail="{{subroute}}"></app-route>
 			<iron-pages attr-for-selected="id" selected="{{routeData.view}}" fallback-selection="list">
-				  <pokemon-list id="list"></pokemon-list>	
+				  <pokemon-list id="list" route="{{subroute}}"></pokemon-list>
 			      <p id="evolutions">Evo</p>
-			</iron-pages>		
-			
+			</iron-pages>
+
         </template>
 		
         <script>

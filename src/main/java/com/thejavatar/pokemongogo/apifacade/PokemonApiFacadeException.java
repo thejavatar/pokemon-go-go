@@ -1,4 +1,4 @@
-package com.thejavatar.pokemongogo;
+package com.thejavatar.pokemongogo.apifacade;
 
 /**
  * Created by theJavatar.com on 24/07/16.
