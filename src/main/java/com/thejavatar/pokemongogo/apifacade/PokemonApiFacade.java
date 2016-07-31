@@ -1,6 +1,7 @@
 package com.thejavatar.pokemongogo.apifacade;
 
 import com.pokegoapi.auth.GoogleAutoCredentialProvider;
+import com.thejavatar.pokemongogo.Evolutions;
 import com.thejavatar.pokemongogo.PokemonDecorator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -8,6 +9,7 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,4 +48,11 @@ public class PokemonApiFacade {
         }
     }
 
+    public List<Evolutions> getEvolutions() {
+        List<Evolutions> evolutions = new ArrayList<>();
+        evolutions.add(new Evolutions("Pidgey", 10, 10));
+        evolutions.add(new Evolutions("Pikachu", 1, 10));
+        evolutions.add(new Evolutions("Rattata", 20, 1000));
+        return evolutions;
+    }
 }

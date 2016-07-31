@@ -1,0 +1,138 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html"/>
+
+<!--
+
+`<evolutions-table>`.
+
+-->
+<dom-module id="evolutions-table">
+    <template>
+        <style>
+		
+		#total {
+			margin-left: 72px;
+		}
+		
+        </style>
+
+        <iron-ajax url="/getEvolutions/" last-response="{{data}}" auto></iron-ajax>
+		
+		<h1>Total</h1>		
+		
+        <vaadin-grid id="total" selection-mode="disabled">
+            <table>
+				<colgroup>
+				            <col>
+				            <col>
+				            <col>
+				</colgroup>
+                <thead>
+                <tr>
+                    <th></th>
+                    <th>Number of evolutions</th>
+                    <th>Number of candies</th>
+                </tr>
+                </thead>
+			    <tbody>
+			          <tr>
+			                 <td>Total</td>
+			                 <td id="totalEvo">0</td>
+			                 <td id="totalCandies">0</td>
+			          </tr>
+			    </tbody>
+            </table>
+        </vaadin-grid>
+		
+		<h1>Details</h1>
+
+        <vaadin-grid id="grid" selection-mode="multi">
+            <table>
+                <colgroup>
+                    <col sortable name="pokemon"/>
+                    <col sortable sort-direction="desc" name="numberOfEvolutions"/>
+                    <col sortable name="numberOfCandies"/>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>Pokemon</th>
+                    <th>Number of evolutions</th>
+                    <th>Number of candies</th>
+                    <!--<th>Time</th>-->
+                </tr>
+                </thead>
+                <!--<tfoot>
+                <tr>
+                    <th>Total</th>
+                    <th>0</th>
+                    <th>{{total}}</th>
+                </tr>
+                </tfoot>-->
+            </table>
+        </vaadin-grid>
+
+    </template>
+    <script>
+
+        Polymer({
+            is: "evolutions-table",
+            properties : {
+                data: {
+                    type: Array,
+                    observer: '_updateTable'
+                }
+            },
+            ready: function() {
+                var self = this;
+                var grid = self.$.grid;
+                grid.addEventListener('sort-order-changed', function() {
+                    console.log('sort-order-changed');
+                    if(self.data !== undefined) {
+                        var idx = grid.sortOrder[0].column;
+                        var idxName =  grid.columns[idx].name;
+                        var lesser = grid.sortOrder[0].direction == 'asc' ? -1 : 1;
+                        self.data.sort(function(a, b) {
+                            return (a[idxName] < b[idxName]) ? lesser : -lesser;
+                        });
+                    }
+                });
+                grid.addEventListener('selected-items-changed', function() {
+                    console.log('selected-items-changed');
+                    self.$.totalCandies.textContent = self._getTotal("numberOfCandies");
+                    self.$.totalEvo.textContent = self._getTotal("numberOfEvolutions");
+                });
+            },
+            _getTotal : function(field) {
+                var self = this;
+                var selected = self._getSelectedItems();              
+                if(selected.length > 0) {
+                    return selected.map(function(evolution) {
+                        return evolution[field];
+                    }).reduce(function(previous, current) {
+                        return previous + current;
+                    });
+                } else {
+                    return 0;
+                }
+            },
+            _getSelectedItems: function() {
+                var self = this;
+                var selectedIndices = self.$.grid.selection.selected();
+                if(self.data != undefined) {
+                    return self.data.filter(function(value, index) {
+                        return selectedIndices.indexOf(index) != -1;
+                    });
+                } else {
+                    return [];
+                }
+            },
+            _updateTable: function(newData, oldData) {
+                console.log('_updateTable');
+                this.$.grid.items = newData;
+                this.$.grid.size = newData.length;
+                this.$.grid.refreshItems();
+            }
+        });
+
+
+    </script>
+</dom-module>

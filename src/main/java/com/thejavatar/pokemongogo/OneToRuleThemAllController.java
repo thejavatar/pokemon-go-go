@@ -63,6 +63,13 @@ public class OneToRuleThemAllController {
         return apiFacade.getPokemons(orderBy.getComparator());
     }
 
+    @RequestMapping("/getEvolutions")
+    @ResponseBody
+    public List<Evolutions> getEvolutions() {
+        LOG.debug("getEvolutions()");
+        return apiFacade.getEvolutions();
+    }
+
     private void authenticateWithPokemonGo(String username, String password) throws LoginFailedException, RemoteServerException {
         apiFacade.setAuthentication(new GoogleAutoCredentialProvider(new OkHttpClient(), username, password), username);
     }
