@@ -93,7 +93,8 @@ public class OneToRuleThemAllController {
                     }
                 }
         ),
-        BY_DATE_CAUGHT((pokemon1, pokemon2) -> pokemon2.getDateCaught().compareTo(pokemon1.getDateCaught()));
+        BY_DATE_CAUGHT((pokemon1, pokemon2) -> pokemon2.getDateCaught().compareTo(pokemon1.getDateCaught())),
+        BY_IV((pokemon1, pokemon2) -> pokemon2.getPerfectIv().compareTo(pokemon1.getPerfectIv()));
 
         private final Comparator<PokemonDecorator> comparator;
 
