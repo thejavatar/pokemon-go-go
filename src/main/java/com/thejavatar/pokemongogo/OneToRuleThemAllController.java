@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -65,7 +66,7 @@ public class OneToRuleThemAllController {
 
     @RequestMapping("/getEvolutions")
     @ResponseBody
-    public List<Evolutions> getEvolutions() {
+    public Collection<Evolution> getEvolutions() {
         LOG.debug("getEvolutions()");
         return apiFacade.getEvolutions();
     }

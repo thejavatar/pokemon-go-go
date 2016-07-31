@@ -8,11 +8,9 @@
 <dom-module id="evolutions-table">
     <template>
         <style>
-		
-		#total {
-			margin-left: 72px;
-		}
-		
+		    .note {
+                color: gray;
+            }
         </style>
 
         <iron-ajax url="/getEvolutions/" last-response="{{data}}" auto></iron-ajax>
@@ -25,12 +23,16 @@
 				            <col>
 				            <col>
 				            <col>
+                            <col>
+                            <col>
 				</colgroup>
                 <thead>
                 <tr>
                     <th></th>
                     <th>Number of evolutions</th>
                     <th>Number of candies</th>
+                    <th>Total time* (min)</th>
+                    <th>Total EXP**</th>
                 </tr>
                 </thead>
 			    <tbody>
@@ -38,10 +40,17 @@
 			                 <td>Total</td>
 			                 <td id="totalEvo">0</td>
 			                 <td id="totalCandies">0</td>
+                             <td id="totalTime">0</td>
+                             <td id="totalExp">0</td>
 			          </tr>
 			    </tbody>
             </table>
         </vaadin-grid>
+
+        <div class="note">
+        * 30 second for each evolution<br/>
+        ** with lucky egg
+        </div>
 		
 		<h1>Details</h1>
 
@@ -98,7 +107,18 @@
                 grid.addEventListener('selected-items-changed', function() {
                     console.log('selected-items-changed');
                     self.$.totalCandies.textContent = self._getTotal("numberOfCandies");
-                    self.$.totalEvo.textContent = self._getTotal("numberOfEvolutions");
+                    var numberOfEvolutions = self._getTotal("numberOfEvolutions");
+                    self.$.totalEvo.textContent = numberOfEvolutions;
+                    if(numberOfEvolutions > 0) {
+                        self.$.totalTime.textContent = self._getTotal("numberOfEvolutions") / 2;
+                    } else {
+                        self.$.totalTime.textContent = 0;
+                    }
+                    var formatter = new Intl.NumberFormat('en-US', {
+                        style: 'decimal',
+                        minimumFractionDigits: 0,
+                    });
+                    self.$.totalExp.textContent = formatter.format(numberOfEvolutions * 1000);
                 });
             },
             _getTotal : function(field) {
