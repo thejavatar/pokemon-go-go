@@ -49,6 +49,18 @@ public class PokemonDecorator {
         return pokemon.getPokemonId().name();
     }
 
+    public String getNickname() {
+        String nickname = pokemon.getNickname();
+        if(nickname == null || nickname.equals("")) {
+            nickname = getName();
+        }
+        return nickname;
+    }
+
+    public Boolean hasNickname() {
+        return getNickname() == null || getNickname().equals("");
+    }
+
     public String getPokedexLink() {
         Optional<PokemonExceptions> exception = findException();
         if (exception.isPresent()) {
