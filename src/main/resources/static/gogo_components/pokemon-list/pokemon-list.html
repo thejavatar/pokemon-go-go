@@ -12,10 +12,10 @@
 
         <app-route
                 route="{{route}}"
-                pattern="/:order_by"
+                pattern="/:orderBy"
                 data="{{routeData}}"></app-route>
 
-        <iron-ajax url="{{_getPokemonsUrl(routeData.order_by)}}" last-response="{{pokemons}}" auto></iron-ajax>
+        <iron-ajax url="{{_getPokemonsUrl(routeData.orderBy)}}" last-response="{{pokemons}}" auto></iron-ajax>
 
         <div class="row">
             <template is="dom-repeat" items="{{pokemons}}" as="pokemon">

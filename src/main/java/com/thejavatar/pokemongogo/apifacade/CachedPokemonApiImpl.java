@@ -17,7 +17,7 @@ public class CachedPokemonApiImpl implements CachedPokemonApi {
 
     @Override
     @Cacheable(value = "api", key="#username")
-    public PokemonGo getApi(GoogleAutoCredentialProvider auth, String username) {
+    synchronized public PokemonGo getApi(GoogleAutoCredentialProvider auth, String username) {
         try {
             OkHttpClient httpClient = new OkHttpClient.Builder().readTimeout(2, TimeUnit.MINUTES).writeTimeout(2, TimeUnit.MINUTES).build();
             return new PokemonGo(auth, httpClient, new SystemTimeImpl());

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -63,6 +64,13 @@ public class OneToRuleThemAllController {
         return apiFacade.getPokemons(orderBy.getComparator());
     }
 
+    @RequestMapping("/getEvolutions")
+    @ResponseBody
+    public Collection<Evolution> getEvolutions() {
+        LOG.debug("getEvolutions()");
+        return apiFacade.getEvolutions();
+    }
+
     private void authenticateWithPokemonGo(String username, String password) throws LoginFailedException, RemoteServerException {
         apiFacade.setAuthentication(new GoogleAutoCredentialProvider(new OkHttpClient(), username, password), username);
     }
@@ -93,7 +101,8 @@ public class OneToRuleThemAllController {
                     }
                 }
         ),
-        BY_DATE_CAUGHT((pokemon1, pokemon2) -> pokemon2.getDateCaught().compareTo(pokemon1.getDateCaught()));
+        BY_DATE_CAUGHT((pokemon1, pokemon2) -> pokemon2.getDateCaught().compareTo(pokemon1.getDateCaught())),
+        BY_IV((pokemon1, pokemon2) -> pokemon2.getPerfectIv().compareTo(pokemon1.getPerfectIv()));
 
         private final Comparator<PokemonDecorator> comparator;
 

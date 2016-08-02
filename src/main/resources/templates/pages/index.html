@@ -24,7 +24,7 @@
 <div layout:fragment="content">
 	
 	  <ul class="nav nav-tabs navbar-fixed-top">
-	  <li role="presentation" class="dropdown active">
+	  <li id="list" role="presentation" class="dropdown active">
 	    <a class="dropdown-toggle" data-toggle="dropdown" href="#/list" role="button" aria-haspopup="true" aria-expanded="false">
 	      Pokemons <span class="caret"></span>
 	    </a>
@@ -32,9 +32,10 @@
 			<li><a href="#/list/BY_NAME_AND_IV">By Name and IV</a></li>
 			<!--<li><a href="#/list">By Name and CP</a></li>-->
 			<li><a href="#/list/BY_DATE_CAUGHT">By Date Caught</a></li>
-	    </ul>
+			<li><a href="#/list/BY_IV">By IV</a></li>
+		</ul>
 	  </li>
-	  <li role="presentation"><a href="#/evolutions">Evolutions</a></li>	
+	  <li id="evolutions" role="presentation"><a href="#/evolutions">Evolutions</a></li>
      </ul>
 
     <pokemon-page></pokemon-page>
@@ -49,7 +50,7 @@
 			<app-route route="{{route}}" pattern="/:view" data="{{routeData}}" tail="{{subroute}}"></app-route>
 			<iron-pages attr-for-selected="id" selected="{{routeData.view}}" fallback-selection="list">
 				  <pokemon-list id="list" route="{{subroute}}"></pokemon-list>
-			      <p id="evolutions">Evo</p>
+				  <evolutions-table id="evolutions"></evolutions-table>
 			</iron-pages>
 
         </template>
