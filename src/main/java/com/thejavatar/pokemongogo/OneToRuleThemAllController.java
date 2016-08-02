@@ -94,10 +94,10 @@ public class OneToRuleThemAllController {
     private enum OrderBy {
         BY_NAME_AND_IV(
                 (pokemon1, pokemon2) -> {
-                    if (pokemon1.getName().equals(pokemon2.getName())) {
+                    if (pokemon1.getNickname().equals(pokemon2.getNickname())) {
                         return pokemon2.getPerfectIv().compareTo(pokemon1.getPerfectIv());
                     } else {
-                        return pokemon1.getName().compareTo(pokemon2.getName());
+                        return pokemon1.getNickname().compareTo(pokemon2.getNickname());
                     }
                 }
         ),
