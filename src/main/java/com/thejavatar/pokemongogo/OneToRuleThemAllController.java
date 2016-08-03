@@ -103,10 +103,10 @@ public class OneToRuleThemAllController {
         ),
         BY_NUMBER_AND_IV(
                 (pokemon1, pokemon2) -> {
-                    if (pokemon1.getName().equals(pokemon2.getName())) {
+                    if (pokemon1.getPokedexId().equals(pokemon2.getPokedexId())) {
                         return pokemon2.getPerfectIv().compareTo(pokemon1.getPerfectIv());
                     } else {
-                        return pokemon1.getName().compareTo(pokemon2.getName());
+                        return pokemon1.getPokedexId().compareTo(pokemon2.getPokedexId());
                     }
                 }
         ),

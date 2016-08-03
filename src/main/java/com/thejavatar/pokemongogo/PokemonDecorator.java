@@ -57,6 +57,10 @@ public class PokemonDecorator {
         return nickname;
     }
 
+    public Integer getPokedexId() {
+        return pokemon.getPokemonId().getNumber();
+    }
+
     public String getPokedexLink() {
         Optional<PokemonExceptions> exception = findException();
         if (exception.isPresent()) {
