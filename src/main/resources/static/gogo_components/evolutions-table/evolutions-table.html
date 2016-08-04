@@ -8,24 +8,24 @@
 <dom-module id="evolutions-table">
     <template>
         <style>
-		    .note {
+            .note {
                 color: gray;
             }
         </style>
 
         <iron-ajax url="/getEvolutions/" last-response="{{data}}" auto></iron-ajax>
-		
-		<h1>Total</h1>		
-		
+
+        <h1>Total</h1>
+
         <vaadin-grid id="total" selection-mode="disabled">
             <table>
-				<colgroup>
-				            <col>
-				            <col>
-				            <col>
-                            <col>
-                            <col>
-				</colgroup>
+                <colgroup>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                    <col>
+                </colgroup>
                 <thead>
                 <tr>
                     <th></th>
@@ -35,24 +35,24 @@
                     <th>Total EXP**</th>
                 </tr>
                 </thead>
-			    <tbody>
-			          <tr>
-			                 <td>Total</td>
-			                 <td id="totalEvo">0</td>
-			                 <td id="totalCandies">0</td>
-                             <td id="totalTime">0</td>
-                             <td id="totalExp">0</td>
-			          </tr>
-			    </tbody>
+                <tbody>
+                <tr>
+                    <td>Total</td>
+                    <td id="totalEvo">0</td>
+                    <td id="totalCandies">0</td>
+                    <td id="totalTime">0</td>
+                    <td id="totalExp">0</td>
+                </tr>
+                </tbody>
             </table>
         </vaadin-grid>
 
         <div class="note">
-        * 30 second for each evolution<br/>
-        ** with lucky egg
+            * 30 second for each evolution<br/>
+            ** with lucky egg
         </div>
-		
-		<h1>Details</h1>
+
+        <h1>Details</h1>
 
         <vaadin-grid id="grid" selection-mode="multi">
             <table>
@@ -84,32 +84,32 @@
 
         Polymer({
             is: "evolutions-table",
-            properties : {
+            properties: {
                 data: {
                     type: Array,
                     observer: '_updateTable'
                 }
             },
-            ready: function() {
+            ready: function () {
                 var self = this;
                 var grid = self.$.grid;
-                grid.addEventListener('sort-order-changed', function() {
+                grid.addEventListener('sort-order-changed', function () {
                     console.log('sort-order-changed');
-                    if(self.data !== undefined) {
+                    if (self.data !== undefined) {
                         var idx = grid.sortOrder[0].column;
-                        var idxName =  grid.columns[idx].name;
+                        var idxName = grid.columns[idx].name;
                         var lesser = grid.sortOrder[0].direction == 'asc' ? -1 : 1;
-                        self.data.sort(function(a, b) {
+                        self.data.sort(function (a, b) {
                             return (a[idxName] < b[idxName]) ? lesser : -lesser;
                         });
                     }
                 });
-                grid.addEventListener('selected-items-changed', function() {
+                grid.addEventListener('selected-items-changed', function () {
                     console.log('selected-items-changed');
                     self.$.totalCandies.textContent = self._getTotal("numberOfCandies");
                     var numberOfEvolutions = self._getTotal("numberOfEvolutions");
                     self.$.totalEvo.textContent = numberOfEvolutions;
-                    if(numberOfEvolutions > 0) {
+                    if (numberOfEvolutions > 0) {
                         self.$.totalTime.textContent = self._getTotal("numberOfEvolutions") / 2;
                     } else {
                         self.$.totalTime.textContent = 0;
@@ -121,31 +121,31 @@
                     self.$.totalExp.textContent = formatter.format(numberOfEvolutions * 1000);
                 });
             },
-            _getTotal : function(field) {
+            _getTotal: function (field) {
                 var self = this;
-                var selected = self._getSelectedItems();              
-                if(selected.length > 0) {
-                    return selected.map(function(evolution) {
+                var selected = self._getSelectedItems();
+                if (selected.length > 0) {
+                    return selected.map(function (evolution) {
                         return evolution[field];
-                    }).reduce(function(previous, current) {
+                    }).reduce(function (previous, current) {
                         return previous + current;
                     });
                 } else {
                     return 0;
                 }
             },
-            _getSelectedItems: function() {
+            _getSelectedItems: function () {
                 var self = this;
                 var selectedIndices = self.$.grid.selection.selected();
-                if(self.data != undefined) {
-                    return self.data.filter(function(value, index) {
+                if (self.data != undefined) {
+                    return self.data.filter(function (value, index) {
                         return selectedIndices.indexOf(index) != -1;
                     });
                 } else {
                     return [];
                 }
             },
-            _updateTable: function(newData, oldData) {
+            _updateTable: function (newData, oldData) {
                 console.log('_updateTable');
                 this.$.grid.items = newData;
                 this.$.grid.size = newData.length;

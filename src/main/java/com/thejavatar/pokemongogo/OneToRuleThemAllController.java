@@ -123,5 +123,4 @@ public class OneToRuleThemAllController {
             return comparator;
         }
     }
-
 }

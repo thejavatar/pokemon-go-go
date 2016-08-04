@@ -2,6 +2,7 @@ package com.thejavatar.pokemongogo;
 
 import com.pokegoapi.api.pokemon.Pokemon;
 
+
 /**
  * Created by theJavatar.com on 31/07/16.
  */
@@ -26,7 +27,7 @@ public class Evolution {
     private Integer calculateEvolutionsBasedOnCandies() {
         int candies = pokemon.getCandy();
         int candiesToEvolve = pokemon.getCandiesToEvolve();
-        if(candiesToEvolve != 0) {
+        if (candiesToEvolve != 0) {
             return Double.valueOf(Math.floor(candies / candiesToEvolve)).intValue();
         } else {
             return 0;
