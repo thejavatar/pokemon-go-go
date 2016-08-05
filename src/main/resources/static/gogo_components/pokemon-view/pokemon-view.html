@@ -19,7 +19,13 @@
                     <p>CP: {{pokemon.cp}}</p>
                     <p>IV: <strong>{{pokemon.perfectIv}}%</strong></p>
                     <p>{{pokemon.combatAttributes}} = <strong>-{{pokemon.combatAttributesDiffFromMax}}</strong></p>
-                    <p>Candies: {{pokemon.candies}}
+                    <p>Candies: <strong>{{pokemon.candies}}</strong>/{{pokemon.candiesToEvolve}}={{pokemon.evolutionsPossible}} (<strong>have</strong>/need=evolve)
+                    <p>Favorite: {{pokemon.favorite}} 
+                    <p>Battles Attacked: {{pokemon.battlesAttacked}}
+                    <p>Battles Defended: {{pokemon.battlesDefended}}
+                    <p>Fort Id: {{pokemon.deployedFortId}}
+                    <p>Injured: {{pokemon.injured}}
+                    <p>Fainted: {{pokemon.fainted}}   
                     <p><a href="http://pokemondb.net/pokedex/{{pokemon.pokedexLink}}">See more</a></p>
                 </div>
             </div>

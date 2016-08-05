@@ -56,6 +56,61 @@ public class PokemonDecorator {
         }
         return nickname;
     }
+    
+    public int getBattlesAttacked() {
+        return pokemon.getBattlesAttacked();
+    }
+    
+    public int getBattlesDefended() {
+        return pokemon.getBattlesDefended();
+    }
+    
+    public String getDeployedFortId() {
+        return pokemon.getDeployedFortId();
+    }
+    
+    public String getDeployedStatus() {
+        if (pokemon.getDeployedFortId().equals(null) )
+    		return "false";
+    	else return "true";
+    }
+    
+    public int getCandiesToEvolve() {
+        return pokemon.getCandiesToEvolve();
+    }
+    
+    /**
+     * ASHORT
+     * Calculate the possible evolutions for this pokemon.
+     *   Based on the candies collected and needed.
+     * @return
+     */
+    public int getEvolutionsPossible() {
+    	if (pokemon.getCandy() > 0 && pokemon.getCandiesToEvolve() > 0)
+        	return pokemon.getCandy() / pokemon.getCandiesToEvolve();
+        else
+        	return 0;
+    }
+    
+    public String getInjured() {
+        return Boolean.toString(pokemon.isInjured());
+    }
+    
+    public String getFainted() {
+        return Boolean.toString(pokemon.isFainted());
+    }
+    
+    public String getFavorite() {
+        return Boolean.toString(pokemon.isFavorite());
+    }
+        
+    public String getIsEgg() {
+        return Boolean.toString(pokemon.getIsEgg());
+    }
+    
+    public int getOrigin() {
+        return pokemon.getOrigin();
+    }
 
     public Integer getPokedexId() {
         return pokemon.getPokemonId().getNumber();
