@@ -54,7 +54,7 @@ public class PokemonApiFacade {
             Map<PokemonFamilyIdOuterClass.PokemonFamilyId, Evolution> evolutions = new HashMap<>();
             PokeBank pokebank = api.getApi(auth, username).getInventories().getPokebank();
             List<Pokemon> pokemons = pokebank.getPokemons();
-            pokemons.sort(OrderBy.BY_IV.getComparator());
+            pokemons.sort(PokemonOrderBy.BY_IV.getComparator());
             pokemons.forEach(pokemon -> {
                 Evolution evolution;
                 PokemonFamilyIdOuterClass.PokemonFamilyId family = pokemon.getPokemonFamily();
@@ -73,6 +73,7 @@ public class PokemonApiFacade {
 
             return evolutions.values().stream()
                     .filter(evolution -> evolution.getNumberOfEvolutions() > 0)
+                    .sorted(EvolutionOrderBy.BY_EVOLUTIONS.getComparator())
                     .collect(Collectors.toList());
         } catch (Exception e) {
             throw new PokemonApiFacadeException(e.getMessage(), e);
@@ -169,12 +170,12 @@ public class PokemonApiFacade {
         }
     }
 
-    private enum OrderBy {
+    private enum PokemonOrderBy {
         BY_IV((pokemon1, pokemon2) -> getPerfectIv(pokemon2).compareTo(getPerfectIv(pokemon1)));
 
         private final Comparator<Pokemon> comparator;
 
-        OrderBy(Comparator<Pokemon> comparator) {
+        PokemonOrderBy(Comparator<Pokemon> comparator) {
             this.comparator = comparator;
         }
 
@@ -185,6 +186,20 @@ public class PokemonApiFacade {
         private static Double getPerfectIv(Pokemon pokemon) {
             double perfectIv = (pokemon.getIndividualAttack() + pokemon.getIndividualDefense() + pokemon.getIndividualStamina()) * 100 / 45;
             return perfectIv;
+        }
+    }
+
+    private enum EvolutionOrderBy {
+        BY_EVOLUTIONS((pokemon1, pokemon2) -> pokemon2.getNumberOfEvolutions().compareTo(pokemon1.getNumberOfEvolutions()));
+
+        private final Comparator<Evolution> comparator;
+
+        EvolutionOrderBy(Comparator<Evolution> comparator) {
+            this.comparator = comparator;
+        }
+
+        public Comparator<Evolution> getComparator() {
+            return comparator;
         }
     }
 }

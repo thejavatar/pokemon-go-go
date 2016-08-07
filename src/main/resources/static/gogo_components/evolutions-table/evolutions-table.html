@@ -44,13 +44,13 @@
 
         <paper-datatable id="grid" data="[[data]]" selected-items="{{selectedItems}}"
                          selectable multi-selection>
-            <paper-datatable-column header="Pokemon" property="pokemon" sortable>
+            <paper-datatable-column header="Pokemon" property="pokemon" type="String" sortable sort-direction="desc">
                 <template>[[item.pokemon]]</template>
             </paper-datatable-column>
-            <paper-datatable-column header="Number of evolutions" property="numberOfEvolutions">
+            <paper-datatable-column header="Number of evolutions" property="numberOfEvolutions" type="Number" sortable sort-direction="desc">
                 <template>[[item.numberOfEvolutions]]</template>
             </paper-datatable-column>
-            <paper-datatable-column header="Number of candies" property="numberOfCandies">
+            <paper-datatable-column header="Number of candies" property="numberOfCandies" type="Number" sortable sort-direction="desc">
                 <template>[[item.numberOfCandies]]</template>
             </paper-datatable-column>
         </paper-datatable>
