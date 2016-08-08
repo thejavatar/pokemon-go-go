@@ -10,50 +10,60 @@
         <style>
             .note {
                 color: gray;
+                margin-bottom: 20px;;
+            }
+            #tableCard {
+                margin-bottom: 10px;
             }
         </style>
 
         <iron-ajax url="/getEvolutions/" last-response="{{data}}" auto></iron-ajax>
 
-        <h1>Total</h1>
-
-        <paper-datatable id="table">
-            <paper-datatable-column property="total">
-                <template>[[item.total]]</template>
-            </paper-datatable-column>
-            <paper-datatable-column header="Number of evolutions" property="numberOfEvolutions">
-                <template>[[item.numberOfEvolutions]]</template>
-            </paper-datatable-column>
-            <paper-datatable-column header="Number of candies" property="numberOfCandies">
-                <template>[[item.numberOfCandies]]</template>
-            </paper-datatable-column>
-            <paper-datatable-column header="Total time* (min)" property="totalTime">
-                <template>[[item.totalTime]]</template>
-            </paper-datatable-column>
-            <paper-datatable-column header="Total EXP**" property="totalExp">
-                <template>[[item.totalExp]]</template>
-            </paper-datatable-column>
-        </paper-datatable>
+        <paper-datatable-card id="tableCard" header="Total">
+            <div toolbar-main>
+            </div>
+            <paper-datatable id="table">
+                <paper-datatable-column property="total">
+                    <template>[[item.total]]</template>
+                </paper-datatable-column>
+                <paper-datatable-column header="Number of evolutions" property="numberOfEvolutions">
+                    <template>[[item.numberOfEvolutions]]</template>
+                </paper-datatable-column>
+                <paper-datatable-column header="Number of candies" property="numberOfCandies">
+                    <template>[[item.numberOfCandies]]</template>
+                </paper-datatable-column>
+                <paper-datatable-column header="Total time* (min)" property="totalTime">
+                    <template>[[item.totalTime]]</template>
+                </paper-datatable-column>
+                <paper-datatable-column header="Total EXP**" property="totalExp">
+                    <template>[[item.totalExp]]</template>
+                </paper-datatable-column>
+            </paper-datatable>
+        </paper-datatable-card>
 
         <div class="note">
             * 30 second for each evolution<br/>
             ** with lucky egg
         </div>
 
-        <h1>Details</h1>
-
-        <paper-datatable id="grid" data="[[data]]" selected-items="{{selectedItems}}"
-                         selectable multi-selection>
-            <paper-datatable-column header="Pokemon" property="pokemon" type="String" sortable sort-direction="desc">
-                <template>[[item.pokemon]]</template>
-            </paper-datatable-column>
-            <paper-datatable-column header="Number of evolutions" property="numberOfEvolutions" type="Number" sortable sort-direction="desc">
-                <template>[[item.numberOfEvolutions]]</template>
-            </paper-datatable-column>
-            <paper-datatable-column header="Number of candies" property="numberOfCandies" type="Number" sortable sort-direction="desc">
-                <template>[[item.numberOfCandies]]</template>
-            </paper-datatable-column>
-        </paper-datatable>
+        <paper-datatable-card id="gridCard" header="Details" page-size="10"
+                              id-property="pokemon" selected-ids="{{selectedIds}}">
+            <paper-datatable id="grid" selected-items="{{selectedItems}}" data="[[data]]"
+                             selectable multi-selection>
+                <div no-results>
+                    Loading...
+                </div>
+                <paper-datatable-column header="Pokemon" property="pokemon" type="String" sortable sort-direction="desc">
+                    <template>[[value]]</template>
+                </paper-datatable-column>
+                <paper-datatable-column header="Number of evolutions" property="numberOfEvolutions" type="Number" sortable sort-direction="desc">
+                    <template>[[value]]</template>
+                </paper-datatable-column>
+                <paper-datatable-column header="Number of candies" property="numberOfCandies" type="Number" sortable sort-direction="desc">
+                    <template>[[value]]</template>
+                </paper-datatable-column>
+            </paper-datatable>
+        </paper-datatable-card>
     </template>
 
     <script>
@@ -64,6 +74,10 @@
                     type: Array
                 },
                 selectedItems: {
+                    type: Array
+                }
+                ,
+                selectedIds: {
                     type: Array
                 }
             },

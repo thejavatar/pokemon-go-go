@@ -9,8 +9,12 @@
         body {
             margin: 0 30px;
             padding-top: 70px;
+            background-color: lightgrey;
         }
         .progress {
+            display: none;
+        }
+        #bottomBlock {
             display: none;
         }
     </style>
@@ -76,6 +80,8 @@ about the ampersands and crashes.
 <link th:href="@{bower_components/iron-pages/iron-pages.html}" rel="import"/>
 <link th:href="@{bower_components/iron-ajax/iron-ajax.html}" rel="import"/>
 <link th:href="@{bower_components/paper-datatable/paper-datatable.html}" rel="import"/>
+<link th:href="@{bower_components/paper-datatable/paper-datatable-card.html}" rel="import"/>
+<link th:href="@{bower_components/paper-datatable/paper-datatable-column.html}" rel="import"/>
 <link th:href="@{gogo_components/pokemon-list/pokemon-list.html}" rel="import"/>
 <link th:href="@{gogo_components/pokemon-view/pokemon-view.html}" rel="import"/>
 <link th:href="@{gogo_components/evolutions-table/evolutions-table.html}" rel="import"/>
