@@ -10,120 +10,126 @@
         <style>
             .note {
                 color: gray;
+                margin-bottom: 20px;;
+            }
+            #tableCard {
+                margin-bottom: 10px;
             }
         </style>
 
         <iron-ajax url="/getEvolutions/" last-response="{{data}}" auto></iron-ajax>
 
-        <h1>Total</h1>
-
-        <vaadin-grid id="total" selection-mode="disabled">
-            <table>
-                <colgroup>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                    <col>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Number of evolutions</th>
-                    <th>Number of candies</th>
-                    <th>Total time* (min)</th>
-                    <th>Total EXP**</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>Total</td>
-                    <td id="totalEvo">0</td>
-                    <td id="totalCandies">0</td>
-                    <td id="totalTime">0</td>
-                    <td id="totalExp">0</td>
-                </tr>
-                </tbody>
-            </table>
-        </vaadin-grid>
+        <paper-datatable-card id="tableCard" header="Total">
+            <div toolbar-main>
+            </div>
+            <paper-datatable id="table">
+                <paper-datatable-column property="total">
+                    <template>[[item.total]]</template>
+                </paper-datatable-column>
+                <paper-datatable-column header="Number of evolutions" property="numberOfEvolutions">
+                    <template>[[item.numberOfEvolutions]]</template>
+                </paper-datatable-column>
+                <paper-datatable-column header="Number of candies" property="numberOfCandies">
+                    <template>[[item.numberOfCandies]]</template>
+                </paper-datatable-column>
+                <paper-datatable-column header="Total time* (min)" property="totalTime">
+                    <template>[[item.totalTime]]</template>
+                </paper-datatable-column>
+                <paper-datatable-column header="Total EXP**" property="totalExp">
+                    <template>[[item.totalExp]]</template>
+                </paper-datatable-column>
+            </paper-datatable>
+        </paper-datatable-card>
 
         <div class="note">
             * 30 second for each evolution<br/>
             ** with lucky egg
         </div>
 
-        <h1>Details</h1>
-
-        <vaadin-grid id="grid" selection-mode="multi">
-            <table>
-                <colgroup>
-                    <col sortable name="pokemon"/>
-                    <col sortable sort-direction="desc" name="numberOfEvolutions"/>
-                    <col sortable name="numberOfCandies"/>
-                </colgroup>
-                <thead>
-                <tr>
-                    <th>Pokemon</th>
-                    <th>Number of evolutions</th>
-                    <th>Number of candies</th>
-                    <!--<th>Time</th>-->
-                </tr>
-                </thead>
-                <!--<tfoot>
-                <tr>
-                    <th>Total</th>
-                    <th>0</th>
-                    <th>{{total}}</th>
-                </tr>
-                </tfoot>-->
-            </table>
-        </vaadin-grid>
-
+        <paper-datatable-card id="gridCard" header="Details" page-size="10"
+                              id-property="pokemon" selected-ids="{{selectedIds}}">
+            <paper-datatable id="grid" selected-items="{{selectedItems}}" data="[[data]]"
+                             selectable multi-selection>
+                <div no-results>
+                    Loading...
+                </div>
+                <paper-datatable-column header="Pokemon" property="pokemon" type="String" sortable sort-direction="desc">
+                    <template>[[value]]</template>
+                </paper-datatable-column>
+                <paper-datatable-column header="Number of evolutions" property="numberOfEvolutions" type="Number" sortable sort-direction="desc">
+                    <template>[[value]]</template>
+                </paper-datatable-column>
+                <paper-datatable-column header="Number of candies" property="numberOfCandies" type="Number" sortable sort-direction="desc">
+                    <template>[[value]]</template>
+                </paper-datatable-column>
+            </paper-datatable>
+        </paper-datatable-card>
     </template>
-    <script>
 
+    <script>
         Polymer({
             is: "evolutions-table",
             properties: {
                 data: {
-                    type: Array,
-                    observer: '_updateTable'
+                    type: Array
+                },
+                selectedItems: {
+                    type: Array
+                }
+                ,
+                selectedIds: {
+                    type: Array
                 }
             },
             ready: function () {
                 var self = this;
                 var grid = self.$.grid;
-                grid.addEventListener('sort-order-changed', function () {
-                    console.log('sort-order-changed');
-                    if (self.data !== undefined) {
-                        var idx = grid.sortOrder[0].column;
-                        var idxName = grid.columns[idx].name;
-                        var lesser = grid.sortOrder[0].direction == 'asc' ? -1 : 1;
-                        self.data.sort(function (a, b) {
-                            return (a[idxName] < b[idxName]) ? lesser : -lesser;
-                        });
-                    }
-                });
-                grid.addEventListener('selected-items-changed', function () {
-                    console.log('selected-items-changed');
-                    self.$.totalCandies.textContent = self._getTotal("numberOfCandies");
+                var table = self.$.table;
+
+                var evolutions = {
+                    numberOfEvolutions: "0",
+                    numberOfCandies: "0",
+                    totalTime: "0",
+                    totalExp: "0",
+                    total: "Total"
+                };
+
+                var evolutionData = [];
+                evolutionData.push(evolutions);
+                table.data = evolutionData;
+
+                grid.addEventListener('selection-changed', function (ev) {
+                    var evolutions = {
+                        numberOfEvolutions: "0",
+                        numberOfCandies: "0",
+                        totalTime: "0",
+                        totalExp: "0",
+                        total: "Total"
+                    };
+
+                    evolutions.numberOfCandies = self._getTotal("numberOfCandies");
                     var numberOfEvolutions = self._getTotal("numberOfEvolutions");
-                    self.$.totalEvo.textContent = numberOfEvolutions;
+                    evolutions.numberOfEvolutions = numberOfEvolutions;
                     if (numberOfEvolutions > 0) {
-                        self.$.totalTime.textContent = self._getTotal("numberOfEvolutions") / 2;
+                        evolutions.totalTime = self._getTotal("numberOfEvolutions") / 2;
                     } else {
-                        self.$.totalTime.textContent = 0;
+                        evolutions.totalTime = 0;
                     }
                     var formatter = new Intl.NumberFormat('en-US', {
                         style: 'decimal',
                         minimumFractionDigits: 0,
                     });
-                    self.$.totalExp.textContent = formatter.format(numberOfEvolutions * 1000);
+                    evolutions.totalExp = formatter.format(numberOfEvolutions * 1000);
+
+                    var evolutionData = [];
+                    evolutionData.push(evolutions);
+                    table.data = evolutionData;
+                    table.reload();
                 });
             },
             _getTotal: function (field) {
                 var self = this;
-                var selected = self._getSelectedItems();
+                var selected = self.selectedItems;
                 if (selected.length > 0) {
                     return selected.map(function (evolution) {
                         return evolution[field];
@@ -133,26 +139,7 @@
                 } else {
                     return 0;
                 }
-            },
-            _getSelectedItems: function () {
-                var self = this;
-                var selectedIndices = self.$.grid.selection.selected();
-                if (self.data != undefined) {
-                    return self.data.filter(function (value, index) {
-                        return selectedIndices.indexOf(index) != -1;
-                    });
-                } else {
-                    return [];
-                }
-            },
-            _updateTable: function (newData, oldData) {
-                console.log('_updateTable');
-                this.$.grid.items = newData;
-                this.$.grid.size = newData.length;
-                this.$.grid.refreshItems();
             }
         });
-
-
     </script>
 </dom-module>
