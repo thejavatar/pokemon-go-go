@@ -109,21 +109,31 @@ public class PokemonDecorator {
     }
 
     public String getPokeballImage() {
-        if (ItemId.ITEM_MASTER_BALL == pokemon.getPokeball())
-        	return "http://cdn.bulbagarden.net/upload//6/6d/Bag_Master_Ball_Sprite.png";  
-        else if (ItemId.ITEM_ULTRA_BALL == pokemon.getPokeball())
-        	return "http://cdn.bulbagarden.net/upload//0/03/Bag_Ultra_Ball_Sprite.png";
-        else if (ItemId.ITEM_GREAT_BALL == pokemon.getPokeball())
-        	return "http://cdn.bulbagarden.net/upload//c/ca/Bag_Great_Ball_Sprite.png";
-        else if (ItemId.ITEM_POKE_BALL == pokemon.getPokeball())
-        	return "http://cdn.bulbagarden.net/upload//9/93/Bag_Pok%C3%A9_Ball_Sprite.png";
-        else
-        	return "http://cdn.bulbagarden.net/upload/d/de/GO_Egg.png";
+    	if  ( pokemon.getIsEgg() ) {
+    		return "http://cdn.bulbagarden.net/upload/d/de/GO_Egg.png";
+        }
+    	else
+    	{
+	        if (ItemId.ITEM_MASTER_BALL == pokemon.getPokeball()) {
+	        	return "http://cdn.bulbagarden.net/upload//6/6d/Bag_Master_Ball_Sprite.png";  
+	        }
+	        else if (ItemId.ITEM_ULTRA_BALL == pokemon.getPokeball()) {
+	        	return "http://cdn.bulbagarden.net/upload//0/03/Bag_Ultra_Ball_Sprite.png";
+	        }
+	        else if (ItemId.ITEM_GREAT_BALL == pokemon.getPokeball()) {
+	        	return "http://cdn.bulbagarden.net/upload//c/ca/Bag_Great_Ball_Sprite.png";
+	        }
+	        else if (ItemId.ITEM_POKE_BALL == pokemon.getPokeball()) {
+	        	return "http://cdn.bulbagarden.net/upload//9/93/Bag_Pok%C3%A9_Ball_Sprite.png";
+	        }
+	        else {
+	        	return "http://cdn.bulbagarden.net/upload/d/de/GO_Egg.png";
+	        }
+    	}
     }
         
     public String getFavoriteIcon() {
-        if (pokemon.isFavorite() == true)
-        {
+        if (pokemon.isFavorite() == true) {
         	return "http://findicons.com/files/icons/166/shiny/128/star.png";
         }
         else

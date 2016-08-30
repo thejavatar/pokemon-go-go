@@ -14,13 +14,17 @@
             <div class="thumbnail">
                 <img src="https://img.pokemondb.net/artwork/{{pokemon.pokedexLink}}.jpg" style="height: 200px;"/>
                 <div class="caption">
-                    <h3>{{pokemon.nickname}} <img src="{{pokemon.pokeballImage}}" style="height: 25px;"/><img src="{{pokemon.favoriteIcon}}" style="height: 25px;"/><img src="{{pokemon.deployedFortIcon}}" style="height: 25px;"/><img src="{{pokemon.injuredIcon}}" style="height: 25px;"/></h3>
+                    <h3>{{pokemon.nickname}} </h3>
                     <h5><i>{{pokemon.name}}</i></h5>
+                    <p>Info: <img src="{{pokemon.pokeballImage}}" style="height: 25px;"/><img src="{{pokemon.favoriteIcon}}" style="height: 25px;"/><img src="{{pokemon.deployedFortIcon}}" style="height: 25px;"/><img src="{{pokemon.injuredIcon}}" style="height: 25px;"/></p>
                     <p>CP: {{pokemon.cp}}</p>
                     <p>IV: <strong>{{pokemon.perfectIv}}%</strong></p>
                     <p>{{pokemon.combatAttributes}} = <strong>-{{pokemon.combatAttributesDiffFromMax}}</strong></p>
-                    <p>Candies: <strong>{{pokemon.candies}}</strong>/{{pokemon.candiesToEvolve}}={{pokemon.evolutionsPossible}} (<strong>have</strong>/need=evolve)
-                    <p>Battles Attacked / Defended: {{pokemon.battlesAttacked}} / {{pokemon.battlesDefended}}
+                    <p>Candies: {{pokemon.candies}} </p>
+                    <p>Candies needed:{{pokemon.candiesToEvolve}} 
+                    <p>Can Evolve:{{pokemon.evolutionsPossible}}</p>
+                    <p>Attacked: {{pokemon.battlesAttacked}}</p>
+                    <p>Defended: {{pokemon.battlesDefended}}</p>
                     <p><a href="http://pokemondb.net/pokedex/{{pokemon.pokedexLink}}">See more</a></p>
                 </div>
             </div>
